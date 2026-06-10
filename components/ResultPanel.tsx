@@ -1,0 +1,86 @@
+import { CheckCircle2, Loader2 } from "lucide-react";
+import { ApiError } from "./ApiError";
+import { TransactionPreview } from "./TransactionPreview";
+import { Warnings } from "./Warnings";
+import type { BuildActionResponse } from "@/lib/types";
+
+type ResultPanelProps = {
+  result: BuildActionResponse | null;
+  error: unknown;
+  loading: boolean;
+};
+
+export function ResultPanel({ result, error, loading }: ResultPanelProps) {
+  if (loading) {
+    return (
+      <section className="rounded-card border border-line bg-white p-6 text-sm text-ink/70">
+        <div className="flex items-center gap-2">
+          <Loader2 className="h-4 w-4 animate-spin text-copper" aria-hidden="true" />
+          <span>Building action payload...</span>
+        </div>
+      </section>
+    );
+  }
+
+  if (error) {
+    return <ApiError error={error} />;
+  }
+
+  if (!result) {
+    return (
+      <section className="rounded-card border border-dashed border-line bg-white p-6 text-sm text-ink/62">
+        Submit an action to preview the backend response.
+      </section>
+    );
+  }
+
+  return (
+    <div className="space-y-4">
+      <section className="rounded-card border border-moss/35 bg-moss/10 p-4 text-sm">
+        <div className="mb-3 flex items-center gap-2 font-semibold text-moss">
+          <CheckCircle2 className="h-4 w-4" aria-hidden="true" />
+          <span>{result.action}</span>
+        </div>
+        <div className="grid gap-3 sm:grid-cols-2">
+          <KeyValue label="Network" value={result.network} />
+          <KeyValue label="Status" value={result.status} />
+          <KeyValue label="Signer" value={result.signing?.signerAddress || "Wallet selected later"} />
+          <KeyValue label="Signing" value={result.signing?.required ? "Required" : "Not required"} />
+        </div>
+      </section>
+
+      <section className="rounded-card border border-line bg-white p-4">
+        <h3 className="mb-3 text-sm font-semibold text-ink">Summary</h3>
+        <pre className="code-scroll max-h-60 overflow-auto rounded-card bg-paper p-3 text-xs leading-5 text-ink">
+          {JSON.stringify(result.summary || {}, null, 2)}
+        </pre>
+      </section>
+
+      <Warnings warnings={result.warnings} />
+      <TransactionPreview response={result} />
+
+      {result.nextSteps?.length ? (
+        <section className="rounded-card border border-line bg-white p-4 text-sm">
+          <h3 className="mb-3 font-semibold text-ink">Next Steps</h3>
+          <ol className="space-y-2 text-ink/75">
+            {result.nextSteps.map((step, index) => (
+              <li key={step} className="flex gap-2">
+                <span className="text-copper">{index + 1}.</span>
+                <span>{step}</span>
+              </li>
+            ))}
+          </ol>
+        </section>
+      ) : null}
+    </div>
+  );
+}
+
+function KeyValue({ label, value }: { label: string; value: string }) {
+  return (
+    <div className="rounded-card bg-white p-3">
+      <div className="text-xs uppercase text-ink/45">{label}</div>
+      <div className="mt-1 break-words font-medium text-ink">{value}</div>
+    </div>
+  );
+}
