@@ -55,3 +55,30 @@ export type EstimateFeeResponse = {
   estimatedFeeShannons: string;
   estimatedFeeCkb: string;
 };
+export type ValidateSignedTransactionResponse = {
+  valid: boolean;
+  errors: string[];
+  warnings: string[];
+};
+
+export type DryRunTransactionResponse = {
+  status: string;
+  network: string;
+  dryRun?: {
+    cycles: string;
+  };
+  warnings?: string[];
+  nextSteps?: string[];
+};
+
+export type BroadcastTransactionResponse = {
+  status: string;
+  network: string;
+  txHash: string;
+  dryRun?: {
+    performed: boolean;
+    cycles?: string;
+  };
+  explorerUrl?: string;
+  nextSteps?: string[];
+};

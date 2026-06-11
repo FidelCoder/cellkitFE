@@ -48,6 +48,9 @@ function normalizeError(error: unknown): ApiErrorShape {
 }
 
 function getSuggestion(message: string) {
+  if (message.includes("address network does not match requested network")) {
+    return "This playground is testnet-only. Use ckt1 testnet addresses, not ckb1 mainnet addresses.";
+  }
   if (message.includes("CKB indexer is not configured")) {
     return "Live cell selection requires the backend to be connected to a CKB indexer. Add CKB_INDEXER_URL in the backend .env file.";
   }

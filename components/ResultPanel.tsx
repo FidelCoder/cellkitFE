@@ -1,5 +1,7 @@
+import Link from "next/link";
 import { CheckCircle2, Loader2 } from "lucide-react";
 import { ApiError } from "./ApiError";
+import { CopyButton } from "./CopyButton";
 import { TransactionPreview } from "./TransactionPreview";
 import { Warnings } from "./Warnings";
 import type { BuildActionResponse } from "@/lib/types";
@@ -57,6 +59,23 @@ export function ResultPanel({ result, error, loading }: ResultPanelProps) {
       </section>
 
       <Warnings warnings={result.warnings} />
+
+      <section className="rounded-card border border-line bg-white p-4 text-sm">
+        <h3 className="mb-2 font-semibold text-ink">Next step: sign externally</h3>
+        <p className="mb-3 leading-6 text-ink/70">
+          CellKit does not handle private keys. Sign this transaction with a compatible CKB wallet/tool, then paste the signed transaction into the Broadcast page.
+        </p>
+        <div className="flex flex-wrap gap-2">
+          <CopyButton label="Copy unsigned transaction JSON" value={result.transaction} />
+          <Link
+            href="/broadcast"
+            className="inline-flex h-9 items-center rounded-card border border-line bg-paper px-3 text-sm font-medium text-ink hover:border-copper hover:text-copper"
+          >
+            Open Broadcast
+          </Link>
+        </div>
+      </section>
+
       <TransactionPreview response={result} />
 
       {result.nextSteps?.length ? (
