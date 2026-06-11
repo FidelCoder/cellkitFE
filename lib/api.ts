@@ -1,4 +1,13 @@
-import type { ActionsResponse, ApiErrorShape, BuildActionResponse, EstimateFeeResponse, ValidateResponse } from "./types";
+import type {
+  ActionsResponse,
+  ApiErrorShape,
+  BroadcastTransactionResponse,
+  BuildActionResponse,
+  DryRunTransactionResponse,
+  EstimateFeeResponse,
+  ValidateResponse,
+  ValidateSignedTransactionResponse
+} from "./types";
 
 const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8080";
 
@@ -90,6 +99,18 @@ export function validateTransaction(payload: unknown) {
 
 export function estimateFee(payload: unknown) {
   return post<EstimateFeeResponse>("/api/actions/estimate-fee", payload);
+}
+
+export function validateSignedTransaction(payload: unknown) {
+  return post<ValidateSignedTransactionResponse>("/api/transactions/validate-signed", payload);
+}
+
+export function dryRunTransaction(payload: unknown) {
+  return post<DryRunTransactionResponse>("/api/transactions/dry-run", payload);
+}
+
+export function broadcastTransaction(payload: unknown) {
+  return post<BroadcastTransactionResponse>("/api/transactions/broadcast", payload);
 }
 
 export { API_BASE_URL };

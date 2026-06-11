@@ -4,6 +4,7 @@ import { Braces, Github } from "lucide-react";
 const navItems = [
   { href: "/playground", label: "Playground" },
   { href: "/actions", label: "Actions" },
+  { href: "/broadcast", label: "Broadcast" },
   { href: "/api-reference", label: "API Reference" }
 ];
 
