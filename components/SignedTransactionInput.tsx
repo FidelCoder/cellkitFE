@@ -23,7 +23,7 @@ export function SignedTransactionInput({
   onSkipDryRunChange
 }: SignedTransactionInputProps) {
   return (
-    <section className="rounded-card border border-line bg-white p-4">
+    <section className="rounded-card border border-line bg-surface p-4 shadow-sm shadow-ink/5">
       <div className="mb-4 flex items-start justify-between gap-3">
         <div>
           <h2 className="text-lg font-semibold text-ink">Signed Transaction JSON</h2>
@@ -45,7 +45,7 @@ export function SignedTransactionInput({
           <textarea
             value={value}
             onChange={(event) => onChange(event.target.value)}
-            className={`${textareaClass} min-h-[420px] font-mono text-xs leading-5`}
+            className={`${textareaClass} min-h-[320px] font-mono text-xs leading-5 sm:min-h-[420px]`}
             spellCheck={false}
             placeholder={`{
   "version": "0x0",
@@ -74,7 +74,7 @@ export function SignedTransactionInput({
           <button
             type="button"
             onClick={onFormat}
-            className="inline-flex h-9 items-center gap-2 rounded-card border border-line bg-paper px-3 text-sm font-medium text-ink hover:border-copper hover:text-copper"
+            className="inline-flex h-9 items-center gap-2 rounded-card border border-line bg-paper px-3 text-sm font-medium text-ink transition hover:border-copper hover:text-copper"
           >
             <Code2 className="h-4 w-4" aria-hidden="true" />
             Format JSON

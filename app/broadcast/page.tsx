@@ -116,12 +116,17 @@ export default function BroadcastPage() {
 
   return (
     <div className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
-      <div className="mb-6 flex flex-col gap-2 border-b border-line pb-6">
-        <p className="text-sm font-semibold uppercase text-copper">Broadcast</p>
-        <h1 className="text-3xl font-semibold tracking-normal text-ink">Validate and Broadcast Signed CKB Transactions</h1>
-        <p className="max-w-3xl text-sm leading-6 text-ink/68">
-          Paste a signed CKB testnet transaction, dry-run it through the CellKit backend, and broadcast it when ready.
-        </p>
+      <div className="mb-6 flex flex-col gap-4 border-b border-line pb-6 md:flex-row md:items-end md:justify-between">
+        <div>
+          <p className="text-sm font-semibold uppercase text-copper">Broadcast</p>
+          <h1 className="mt-2 text-3xl font-semibold tracking-normal text-ink">Validate and broadcast signed CKB transactions</h1>
+          <p className="mt-2 max-w-3xl text-sm leading-6 text-ink/68">
+            Paste a signed CKB testnet transaction, dry-run it through the CellKit backend, and broadcast it when ready.
+          </p>
+        </div>
+        <div className="flex w-fit items-center gap-2 rounded-card border border-moss/30 bg-moss/10 px-3 py-2 text-xs font-semibold uppercase text-moss">
+          testnet only
+        </div>
       </div>
 
       <div className="mb-6 rounded-card border border-copper/35 bg-copper/10 p-4 text-sm leading-6 text-ink/75">
@@ -140,7 +145,7 @@ export default function BroadcastPage() {
             onSkipDryRunChange={setSkipDryRun}
           />
 
-          <section className="rounded-card border border-line bg-white p-4">
+          <section className="rounded-card border border-line bg-surface p-4 shadow-sm shadow-ink/5">
             <div className="mb-4">
               <h2 className="text-sm font-semibold text-ink">Actions</h2>
               <p className="mt-1 text-sm leading-6 text-ink/65">Run each step explicitly. Dry-run never broadcasts automatically.</p>
@@ -150,7 +155,7 @@ export default function BroadcastPage() {
                 type="button"
                 onClick={handleValidate}
                 disabled={isLoading}
-                className="inline-flex h-11 items-center justify-center rounded-card border border-line bg-paper px-4 text-sm font-semibold text-ink hover:border-copper hover:text-copper disabled:cursor-not-allowed disabled:opacity-60"
+                className="inline-flex min-h-11 items-center justify-center rounded-card border border-line bg-paper px-4 py-2 text-center text-sm font-semibold leading-5 text-ink transition hover:border-copper hover:text-copper disabled:cursor-not-allowed disabled:opacity-60"
               >
                 <SearchCheck className="mr-2 h-4 w-4" aria-hidden="true" />
                 Validate Signed Transaction
@@ -159,7 +164,7 @@ export default function BroadcastPage() {
                 type="button"
                 onClick={handleDryRun}
                 disabled={isLoading}
-                className="inline-flex h-11 items-center justify-center rounded-card border border-line bg-paper px-4 text-sm font-semibold text-ink hover:border-copper hover:text-copper disabled:cursor-not-allowed disabled:opacity-60"
+                className="inline-flex min-h-11 items-center justify-center rounded-card border border-line bg-paper px-4 py-2 text-center text-sm font-semibold leading-5 text-ink transition hover:border-copper hover:text-copper disabled:cursor-not-allowed disabled:opacity-60"
               >
                 <ShieldCheck className="mr-2 h-4 w-4" aria-hidden="true" />
                 Dry Run
@@ -168,7 +173,7 @@ export default function BroadcastPage() {
                 type="button"
                 onClick={handleBroadcast}
                 disabled={isLoading}
-                className="inline-flex h-11 items-center justify-center rounded-card bg-copper px-4 text-sm font-semibold text-paper hover:bg-ink disabled:cursor-not-allowed disabled:opacity-60"
+                className="inline-flex min-h-11 items-center justify-center rounded-card bg-copper px-4 py-2 text-center text-sm font-semibold leading-5 text-paper shadow-sm shadow-ink/10 transition hover:bg-ink disabled:cursor-not-allowed disabled:opacity-60"
               >
                 <Send className="mr-2 h-4 w-4" aria-hidden="true" />
                 Broadcast to Testnet

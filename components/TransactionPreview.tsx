@@ -26,14 +26,14 @@ export function TransactionPreview({ response, transaction }: TransactionPreview
 
   if (!tx) {
     return (
-      <div className="rounded-card border border-dashed border-line bg-white p-6 text-sm text-ink/62">
+      <div className="rounded-card border border-dashed border-line bg-surface p-6 text-sm text-ink/62 shadow-sm shadow-ink/5">
         No transaction payload yet.
       </div>
     );
   }
 
   return (
-    <section className="rounded-card border border-line bg-white p-4">
+    <section className="rounded-card border border-line bg-surface p-4 shadow-sm shadow-ink/5">
       <div className="mb-3 flex flex-wrap items-center justify-between gap-2">
         <div>
           <h3 className="text-sm font-semibold text-ink">Transaction JSON</h3>
@@ -61,7 +61,7 @@ export function TransactionPreview({ response, transaction }: TransactionPreview
                   {isOpen ? <ChevronDown className="h-4 w-4" aria-hidden="true" /> : <ChevronRight className="h-4 w-4" aria-hidden="true" />}
                   <span className="truncate">{section}</span>
                 </span>
-                <span className="rounded-card bg-white px-2 py-1 text-xs text-ink/62">{length} items</span>
+                <span className="rounded-card bg-surface px-2 py-1 text-xs text-ink/62">{length} items</span>
               </button>
               {isOpen ? (
                 <pre className="code-scroll max-h-56 overflow-auto border-t border-line p-3 text-xs leading-5 text-ink">
@@ -73,7 +73,7 @@ export function TransactionPreview({ response, transaction }: TransactionPreview
         })}
       </div>
 
-      <pre className="code-scroll mt-3 max-h-80 overflow-auto rounded-card bg-ink p-4 text-xs leading-5 text-paper">
+      <pre className="code-scroll mt-3 max-h-80 overflow-auto rounded-card bg-code p-4 text-xs leading-5 text-codeText">
         {fullJson}
       </pre>
     </section>

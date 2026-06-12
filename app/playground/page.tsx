@@ -72,24 +72,29 @@ export default function PlaygroundPage() {
 
   return (
     <div className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
-      <div className="mb-6 flex flex-col gap-2 border-b border-line pb-6">
-        <p className="text-sm font-semibold uppercase text-copper">Playground</p>
-        <h1 className="text-3xl font-semibold tracking-normal text-ink">Build reusable CKB action payloads</h1>
-        <p className="max-w-3xl text-sm leading-6 text-ink/68">
-          Choose an MVP action, submit developer-friendly fields, and inspect the unsigned payload or backend error returned by the Rust API.
-        </p>
+      <div className="mb-6 flex flex-col gap-4 border-b border-line pb-6 md:flex-row md:items-end md:justify-between">
+        <div>
+          <p className="text-sm font-semibold uppercase text-copper">Playground</p>
+          <h1 className="mt-2 text-3xl font-semibold tracking-normal text-ink">Build reusable CKB action payloads</h1>
+          <p className="mt-2 max-w-3xl text-sm leading-6 text-ink/68">
+            Choose an MVP action, submit developer-friendly fields, and inspect the unsigned payload or backend error returned by the Rust API.
+          </p>
+        </div>
+        <div className="flex w-fit items-center gap-2 rounded-card border border-moss/30 bg-moss/10 px-3 py-2 text-xs font-semibold uppercase text-moss">
+          testnet registry
+        </div>
       </div>
 
       {registryError ? <div className="mb-6"><ApiError error={registryError} /></div> : null}
 
-      <div className="grid gap-6 lg:grid-cols-[380px_minmax(0,1fr)]">
-        <aside className="space-y-4">
-          <section className="rounded-card border border-line bg-white p-4">
+      <div className="grid gap-6 lg:grid-cols-[390px_minmax(0,1fr)]">
+        <aside className="space-y-4 lg:sticky lg:top-24 lg:self-start">
+          <section className="rounded-card border border-line bg-surface p-4 shadow-sm shadow-ink/5">
             <h2 className="mb-3 text-sm font-semibold text-ink">Actions</h2>
             <ActionSelector actions={actions} selectedAction={selectedAction} onSelect={(id) => isActionId(id) && setSelectedAction(id)} />
           </section>
 
-          <section className="rounded-card border border-line bg-white p-4">
+          <section className="rounded-card border border-line bg-surface p-4 shadow-sm shadow-ink/5">
             <div className="mb-4">
               <h2 className="text-lg font-semibold text-ink">{current.name}</h2>
               <p className="mt-1 text-sm leading-6 text-ink/65">{current.description}</p>

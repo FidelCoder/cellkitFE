@@ -29,8 +29,8 @@ export function ActionSelector({ actions, selectedAction, onSelect }: ActionSele
             key={action.id}
             type="button"
             onClick={() => onSelect(action.id)}
-            className={`flex min-h-16 items-start gap-3 rounded-card border p-3 text-left transition ${
-              active ? "border-ink bg-ink text-paper" : "border-line bg-white text-ink hover:border-copper"
+            className={`flex min-h-16 items-start gap-3 rounded-card border p-3 text-left shadow-sm shadow-ink/5 transition ${
+              active ? "border-copper bg-ink text-paper shadow-ink/10" : "border-line bg-surface text-ink hover:border-copper hover:bg-paper/55"
             }`}
           >
             <Icon className={`mt-0.5 h-4 w-4 flex-none ${active ? "text-paper" : "text-copper"}`} aria-hidden="true" />
