@@ -11,7 +11,7 @@ export default function ApiReferencePage() {
       <div className="mb-6 border-b border-line pb-6">
         <p className="text-sm font-semibold uppercase text-copper">API Reference</p>
         <h1 className="mt-2 text-3xl font-semibold tracking-normal text-ink">CellKit backend endpoints</h1>
-        <p className="mt-3 text-sm leading-6 text-ink/68">Backend base URL: <code className="rounded-card bg-white px-2 py-1">{API_BASE_URL}</code></p>
+        <p className="mt-3 text-sm leading-6 text-ink/68">Backend base URL: <code className="rounded-card border border-line bg-surface px-2 py-1">{API_BASE_URL}</code></p>
       </div>
 
       <div className="grid gap-5">
@@ -58,7 +58,7 @@ export default function ApiReferencePage() {
 
 function Endpoint({ title, method, path, curl, request, response }: { title: string; method: string; path: string; curl: string; request?: unknown; response: unknown }) {
   return (
-    <section className="rounded-card border border-line bg-white p-5">
+    <section className="rounded-card border border-line bg-surface p-5 shadow-sm shadow-ink/5">
       <div className="mb-4 flex flex-wrap items-start justify-between gap-3">
         <div>
           <h2 className="text-lg font-semibold text-ink">{title}</h2>
@@ -66,7 +66,7 @@ function Endpoint({ title, method, path, curl, request, response }: { title: str
         </div>
         <CopyButton label="Copy curl" value={curl} />
       </div>
-      <pre className="code-scroll overflow-auto rounded-card bg-ink p-4 text-xs leading-5 text-paper">{curl}</pre>
+      <pre className="code-scroll overflow-auto rounded-card bg-code p-4 text-xs leading-5 text-codeText">{curl}</pre>
       {request ? <JsonBlock title="Request" value={request} /> : null}
       <JsonBlock title="Response" value={response} />
     </section>

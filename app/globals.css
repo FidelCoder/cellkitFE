@@ -4,17 +4,48 @@
 
 :root {
   color-scheme: light;
-  background: #f7f4ee;
+  --color-ink: 18 17 15;
+  --color-paper: 247 244 238;
+  --color-surface: 255 255 255;
+  --color-soft: 250 248 242;
+  --color-line: 222 216 204;
+  --color-moss: 89 107 77;
+  --color-copper: 163 95 55;
+  --color-basin: 40 89 103;
+  --color-code: 18 17 15;
+  --color-code-text: 247 244 238;
+  background: rgb(var(--color-paper));
+}
+
+[data-theme="dark"] {
+  color-scheme: dark;
+  --color-ink: 238 234 224;
+  --color-paper: 20 19 16;
+  --color-surface: 30 28 23;
+  --color-soft: 25 24 20;
+  --color-line: 58 52 43;
+  --color-moss: 159 176 132;
+  --color-copper: 211 135 87;
+  --color-basin: 116 167 174;
+  --color-code: 13 12 10;
+  --color-code-text: 238 234 224;
 }
 
 * {
   box-sizing: border-box;
 }
 
+html {
+  background: rgb(var(--color-paper));
+}
+
 body {
   margin: 0;
-  background: #f7f4ee;
-  color: #12110f;
+  background:
+    linear-gradient(180deg, rgb(var(--color-soft) / 0.64), transparent 320px),
+    rgb(var(--color-paper));
+  color: rgb(var(--color-ink));
+  transition: background-color 180ms ease, color 180ms ease;
 }
 
 button,
@@ -26,5 +57,14 @@ textarea {
 
 .code-scroll {
   scrollbar-width: thin;
-  scrollbar-color: #a35f37 #ebe5d8;
+  scrollbar-color: rgb(var(--color-copper)) rgb(var(--color-line) / 0.45);
+}
+
+::selection {
+  background: rgb(var(--color-copper) / 0.24);
+}
+
+:focus-visible {
+  outline: 2px solid rgb(var(--color-copper) / 0.7);
+  outline-offset: 2px;
 }

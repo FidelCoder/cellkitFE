@@ -1,6 +1,7 @@
 import type { Config } from "tailwindcss";
 
 const config: Config = {
+  darkMode: ["class", '[data-theme="dark"]'],
   content: [
     "./app/**/*.{js,ts,jsx,tsx,mdx}",
     "./components/**/*.{js,ts,jsx,tsx,mdx}",
@@ -9,12 +10,16 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
-        ink: "#12110f",
-        paper: "#f7f4ee",
-        line: "#ded8cc",
-        moss: "#596b4d",
-        copper: "#a35f37",
-        basin: "#285967"
+        ink: "rgb(var(--color-ink) / <alpha-value>)",
+        paper: "rgb(var(--color-paper) / <alpha-value>)",
+        surface: "rgb(var(--color-surface) / <alpha-value>)",
+        soft: "rgb(var(--color-soft) / <alpha-value>)",
+        line: "rgb(var(--color-line) / <alpha-value>)",
+        moss: "rgb(var(--color-moss) / <alpha-value>)",
+        copper: "rgb(var(--color-copper) / <alpha-value>)",
+        basin: "rgb(var(--color-basin) / <alpha-value>)",
+        code: "rgb(var(--color-code) / <alpha-value>)",
+        codeText: "rgb(var(--color-code-text) / <alpha-value>)"
       },
       borderRadius: {
         card: "8px"

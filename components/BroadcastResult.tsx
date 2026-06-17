@@ -14,7 +14,7 @@ type BroadcastResultProps = {
 
 export function BroadcastResult({ validation, dryRun, broadcast, error, loadingAction }: BroadcastResultProps) {
   return (
-    <section className="rounded-card border border-line bg-white p-4">
+    <section className="rounded-card border border-line bg-surface p-4 shadow-sm shadow-ink/5 xl:sticky xl:top-24 xl:self-start">
       <div className="mb-4 flex items-start justify-between gap-3">
         <div>
           <h2 className="text-lg font-semibold text-ink">Validation and Broadcast Results</h2>
@@ -67,7 +67,7 @@ function ErrorState({ error }: { error: unknown }) {
       <p className="leading-6">{shaped.message}</p>
       {suggestion ? <p className="mt-3 leading-6 text-ink/75">{suggestion}</p> : null}
       {shaped.details ? (
-        <pre className="code-scroll mt-3 max-h-48 overflow-auto rounded-card bg-ink p-3 text-xs text-paper">
+        <pre className="code-scroll mt-3 max-h-48 overflow-auto rounded-card bg-code p-3 text-xs text-codeText">
           {JSON.stringify(shaped.details, null, 2)}
         </pre>
       ) : null}
@@ -123,7 +123,7 @@ function BroadcastContent({ broadcast }: { broadcast: BroadcastTransactionRespon
           href={broadcast.explorerUrl}
           target="_blank"
           rel="noreferrer"
-          className="inline-flex w-fit items-center gap-2 rounded-card border border-line bg-white px-3 py-2 font-medium text-copper hover:border-copper"
+          className="inline-flex w-fit items-center gap-2 rounded-card border border-line bg-surface px-3 py-2 font-medium text-copper hover:border-copper"
         >
           View on explorer
           <ExternalLink className="h-4 w-4" aria-hidden="true" />
@@ -144,7 +144,7 @@ function StatusPill({ ok, okText, failText }: { ok: boolean; okText: string; fai
 
 function KeyValue({ label, value }: { label: string; value: string }) {
   return (
-    <div className="rounded-card bg-white p-3">
+    <div className="rounded-card bg-surface p-3">
       <div className="text-xs uppercase text-ink/45">{label}</div>
       <div className="mt-1 break-words font-medium text-ink">{value}</div>
     </div>
@@ -163,7 +163,7 @@ function List({ title, items, tone }: { title: string; items: string[]; tone: "e
       <div className="mb-1 text-xs font-semibold uppercase text-ink/45">{title}</div>
       <ul className={`grid gap-1 leading-6 ${toneClass}`}>
         {items.map((item) => (
-          <li key={item} className="rounded-card bg-white px-3 py-2">{item}</li>
+          <li key={item} className="rounded-card bg-surface px-3 py-2">{item}</li>
         ))}
       </ul>
     </div>

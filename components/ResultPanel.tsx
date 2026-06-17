@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { CheckCircle2, Loader2 } from "lucide-react";
+import { CheckCircle2, FileJson2, Loader2 } from "lucide-react";
 import { ApiError } from "./ApiError";
 import { CopyButton } from "./CopyButton";
 import { TransactionPreview } from "./TransactionPreview";
@@ -15,7 +15,7 @@ type ResultPanelProps = {
 export function ResultPanel({ result, error, loading }: ResultPanelProps) {
   if (loading) {
     return (
-      <section className="rounded-card border border-line bg-white p-6 text-sm text-ink/70">
+      <section className="rounded-card border border-line bg-surface p-6 text-sm text-ink/70 shadow-sm shadow-ink/5">
         <div className="flex items-center gap-2">
           <Loader2 className="h-4 w-4 animate-spin text-copper" aria-hidden="true" />
           <span>Building action payload...</span>
@@ -30,15 +30,19 @@ export function ResultPanel({ result, error, loading }: ResultPanelProps) {
 
   if (!result) {
     return (
-      <section className="rounded-card border border-dashed border-line bg-white p-6 text-sm text-ink/62">
-        Submit an action to preview the backend response.
+      <section className="grid min-h-56 place-items-center rounded-card border border-dashed border-line bg-surface p-6 text-center text-sm text-ink/62 shadow-sm shadow-ink/5">
+        <div>
+          <FileJson2 className="mx-auto mb-3 h-8 w-8 text-copper" aria-hidden="true" />
+          <p className="font-medium text-ink">No payload yet</p>
+          <p className="mt-1 text-ink/62">Submit an action to preview the backend response.</p>
+        </div>
       </section>
     );
   }
 
   return (
     <div className="space-y-4">
-      <section className="rounded-card border border-moss/35 bg-moss/10 p-4 text-sm">
+      <section className="rounded-card border border-moss/35 bg-moss/10 p-4 text-sm shadow-sm shadow-ink/5">
         <div className="mb-3 flex items-center gap-2 font-semibold text-moss">
           <CheckCircle2 className="h-4 w-4" aria-hidden="true" />
           <span>{result.action}</span>
@@ -51,7 +55,7 @@ export function ResultPanel({ result, error, loading }: ResultPanelProps) {
         </div>
       </section>
 
-      <section className="rounded-card border border-line bg-white p-4">
+      <section className="rounded-card border border-line bg-surface p-4 shadow-sm shadow-ink/5">
         <h3 className="mb-3 text-sm font-semibold text-ink">Summary</h3>
         <pre className="code-scroll max-h-60 overflow-auto rounded-card bg-paper p-3 text-xs leading-5 text-ink">
           {JSON.stringify(result.summary || {}, null, 2)}
@@ -60,7 +64,7 @@ export function ResultPanel({ result, error, loading }: ResultPanelProps) {
 
       <Warnings warnings={result.warnings} />
 
-      <section className="rounded-card border border-line bg-white p-4 text-sm">
+      <section className="rounded-card border border-line bg-surface p-4 text-sm shadow-sm shadow-ink/5">
         <h3 className="mb-2 font-semibold text-ink">Next step: sign externally</h3>
         <p className="mb-3 leading-6 text-ink/70">
           CellKit does not handle private keys. Sign this transaction with a compatible CKB wallet/tool, then paste the signed transaction into the Broadcast page.
@@ -79,7 +83,7 @@ export function ResultPanel({ result, error, loading }: ResultPanelProps) {
       <TransactionPreview response={result} />
 
       {result.nextSteps?.length ? (
-        <section className="rounded-card border border-line bg-white p-4 text-sm">
+        <section className="rounded-card border border-line bg-surface p-4 text-sm shadow-sm shadow-ink/5">
           <h3 className="mb-3 font-semibold text-ink">Next Steps</h3>
           <ol className="space-y-2 text-ink/75">
             {result.nextSteps.map((step, index) => (
@@ -97,7 +101,7 @@ export function ResultPanel({ result, error, loading }: ResultPanelProps) {
 
 function KeyValue({ label, value }: { label: string; value: string }) {
   return (
-    <div className="rounded-card bg-white p-3">
+    <div className="rounded-card bg-surface p-3">
       <div className="text-xs uppercase text-ink/45">{label}</div>
       <div className="mt-1 break-words font-medium text-ink">{value}</div>
     </div>

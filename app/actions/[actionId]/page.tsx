@@ -22,7 +22,7 @@ export default function ActionDetailPage({ params }: { params: { actionId: strin
         <h1 className="mt-2 text-3xl font-semibold tracking-normal text-ink">{action.name}</h1>
         <p className="mt-3 max-w-3xl text-sm leading-6 text-ink/68">{action.description}</p>
         <div className="mt-5 flex flex-wrap gap-3">
-          <Link href={`/playground?action=${encodeURIComponent(actionId)}`} className="inline-flex h-10 items-center rounded-card bg-ink px-4 text-sm font-semibold text-paper hover:bg-copper">
+          <Link href={`/playground?action=${encodeURIComponent(actionId)}`} className="inline-flex h-10 items-center rounded-card bg-ink px-4 text-sm font-semibold text-paper shadow-sm shadow-ink/10 transition hover:bg-copper">
             Open in Playground
           </Link>
           <CopyButton label="Endpoint" value={action.endpoint} />
@@ -30,7 +30,7 @@ export default function ActionDetailPage({ params }: { params: { actionId: strin
       </div>
 
       <div className="grid gap-5">
-        <section className="rounded-card border border-line bg-white p-5">
+        <section className="rounded-card border border-line bg-surface p-5 shadow-sm shadow-ink/5">
           <h2 className="mb-3 text-lg font-semibold text-ink">Request Fields</h2>
           <div className="grid gap-2 sm:grid-cols-2">
             {Object.entries(action.requestSchema).map(([field, type]) => (
@@ -45,10 +45,10 @@ export default function ActionDetailPage({ params }: { params: { actionId: strin
         <JsonBlock title="Sample Request" value={action.sampleRequest} />
         <JsonBlock title="Sample Response" value={action.sampleResponse} />
 
-        <section className="rounded-card border border-line bg-white p-5">
+        <section className="rounded-card border border-line bg-surface p-5 shadow-sm shadow-ink/5">
           <h2 className="mb-3 text-lg font-semibold text-ink">Limitations</h2>
           <ul className="grid gap-2 text-sm text-ink/70">
-            {action.limitations.map((item) => <li key={item}>{item}</li>)}
+            {action.limitations.map((item) => <li key={item} className="rounded-card bg-paper px-3 py-2">{item}</li>)}
           </ul>
         </section>
       </div>
@@ -58,12 +58,12 @@ export default function ActionDetailPage({ params }: { params: { actionId: strin
 
 function JsonBlock({ title, value }: { title: string; value: unknown }) {
   return (
-    <section className="rounded-card border border-line bg-white p-5">
+    <section className="rounded-card border border-line bg-surface p-5 shadow-sm shadow-ink/5">
       <div className="mb-3 flex items-center justify-between gap-3">
         <h2 className="text-lg font-semibold text-ink">{title}</h2>
         <CopyButton label="Copy JSON" value={value} />
       </div>
-      <pre className="code-scroll max-h-96 overflow-auto rounded-card bg-ink p-4 text-xs leading-5 text-paper">
+      <pre className="code-scroll max-h-96 overflow-auto rounded-card bg-code p-4 text-xs leading-5 text-codeText">
         {JSON.stringify(value, null, 2)}
       </pre>
     </section>
