@@ -19,8 +19,9 @@ Implemented:
 - Broadcast page for signed transaction JSON
 - Validate, dry-run, and broadcast controls
 - Result panels for validation errors, dry-run cycles, tx hash, and explorer URL
+- Demo recording script and public update template
 - API client with backend error handling
-- Light/dark theme support
+- Protocol console visual system using Geist and JetBrains Mono
 
 ## Architecture
 
@@ -120,6 +121,7 @@ Manual check:
 3. Start the frontend.
 4. Open `/playground` and submit a CKB transfer request.
 5. Open `/broadcast` and verify the signed transaction workflow UI is available.
+6. Follow [`DEMO.md`](./DEMO.md) for the full Milestone 3 recording path.
 
 ## Security Model
 

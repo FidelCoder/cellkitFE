@@ -23,7 +23,7 @@ export function CopyButton({ value, label = "Copy", className = "" }: CopyButton
     <button
       type="button"
       onClick={handleCopy}
-      className={`inline-flex h-9 items-center gap-2 rounded-card border border-line bg-paper px-3 text-sm font-medium text-ink hover:border-copper hover:text-copper ${className}`}
+      className={`inline-flex h-9 items-center gap-2 rounded-full border border-white/10 bg-black/30 px-3 font-mono text-[11px] font-medium uppercase tracking-wider text-white transition hover:border-copper/35 hover:text-copper ${className}`}
       title={label}
     >
       {copied ? <Check className="h-4 w-4" aria-hidden="true" /> : <Copy className="h-4 w-4" aria-hidden="true" />}

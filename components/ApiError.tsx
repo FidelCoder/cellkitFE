@@ -11,15 +11,15 @@ export function ApiError({ error }: ApiErrorProps) {
   const suggestion = getSuggestion(shaped.message || shaped.error);
 
   return (
-    <section className="rounded-card border border-copper/40 bg-copper/10 p-4 text-sm text-ink shadow-sm shadow-ink/5">
+    <section className="rounded-2xl border border-copper/40 bg-copper/10 p-4 text-sm text-white shadow-protocol">
       <div className="mb-2 flex items-center gap-2 font-semibold text-copper">
         <AlertTriangle className="h-4 w-4" aria-hidden="true" />
         <span>{shaped.error || "Backend error"}</span>
       </div>
       <p className="leading-6">{shaped.message || "The backend returned an unexpected error."}</p>
-      {suggestion ? <p className="mt-3 leading-6 text-ink/75">{suggestion}</p> : null}
+      {suggestion ? <p className="mt-3 leading-6 text-[#D8C3AD]/75">{suggestion}</p> : null}
       {shaped.details ? (
-        <pre className="code-scroll mt-3 max-h-48 overflow-auto rounded-card bg-code p-3 text-xs text-codeText">
+        <pre className="code-scroll mt-3 max-h-48 overflow-auto rounded-xl bg-code p-3 text-xs text-codeText">
           {JSON.stringify(shaped.details, null, 2)}
         </pre>
       ) : null}
