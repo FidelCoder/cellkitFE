@@ -1,7 +1,7 @@
 "use client";
 
 import { useMemo, useState } from "react";
-import { RadioTower, SearchCheck, Send, ShieldCheck } from "lucide-react";
+import { CheckCircle2, RadioTower, SearchCheck, Send, ShieldCheck } from "lucide-react";
 import { BroadcastResult } from "@/components/BroadcastResult";
 import { SignedTransactionInput } from "@/components/SignedTransactionInput";
 import { broadcastTransaction, dryRunTransaction, validateSignedTransaction } from "@/lib/api";
@@ -10,6 +10,13 @@ import type { BroadcastTransactionResponse, DryRunTransactionResponse, ValidateS
 type ActionName = "validate" | "dry-run" | "broadcast";
 
 const confirmationText = "This will submit the signed transaction to CKB testnet. Make sure you reviewed the transaction and dry-run result.";
+
+const steps = [
+  { id: "paste", label: "Paste", copy: "Signed JSON payload" },
+  { id: "validate", label: "Validate", copy: "Shape and witness checks" },
+  { id: "dry-run", label: "Dry-run", copy: "RPC simulation" },
+  { id: "broadcast", label: "Broadcast", copy: "Testnet submission" }
+];
 
 export default function BroadcastPage() {
   const [signedTransactionJson, setSignedTransactionJson] = useState("");
@@ -27,6 +34,26 @@ export default function BroadcastPage() {
     if (loadingAction === "broadcast") return "Broadcasting signed transaction to CKB testnet...";
     return null;
   }, [loadingAction]);
+
+  const hasJson = signedTransactionJson.trim().length > 0;
+  const validationPassed = validation?.valid === true;
+  const dryRunPassed = dryRun?.status === "dry_run_ok";
+  const isLoading = Boolean(loadingAction);
+  const canDryRun = validationPassed && !isLoading;
+  const canBroadcast = validationPassed && (skipDryRun || dryRunPassed) && !isLoading;
+
+  function resetResults() {
+    setValidation(null);
+    setDryRun(null);
+    setBroadcast(null);
+    setError(null);
+    setParseError(null);
+  }
+
+  function handleTransactionChange(value: string) {
+    setSignedTransactionJson(value);
+    resetResults();
+  }
 
   function parseTransaction() {
     setParseError(null);
@@ -52,6 +79,7 @@ export default function BroadcastPage() {
 
   async function handleValidate() {
     setError(null);
+    setDryRun(null);
     setBroadcast(null);
     setLoadingAction("validate");
     try {
@@ -112,74 +140,80 @@ export default function BroadcastPage() {
     }
   }
 
-  const isLoading = Boolean(loadingAction);
-
   return (
-    <div className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
-      <div className="mb-6 flex flex-col gap-4 border-b border-line pb-6 md:flex-row md:items-end md:justify-between">
+    <div className="mx-auto grid max-w-7xl gap-8 px-4 py-10 pb-24 sm:px-6 lg:px-8">
+      <section className="grid gap-6 border-b border-white/10 pb-8 lg:grid-cols-[minmax(0,1fr)_420px] lg:items-end">
         <div>
-          <p className="text-sm font-semibold uppercase text-copper">Broadcast</p>
-          <h1 className="mt-2 text-3xl font-semibold tracking-normal text-ink">Validate and broadcast signed CKB transactions</h1>
-          <p className="mt-2 max-w-3xl text-sm leading-6 text-ink/68">
-            Paste a signed CKB testnet transaction, dry-run it through the CellKit backend, and broadcast it when ready.
+          <p className="font-mono text-[11px] font-semibold uppercase tracking-wider text-copper">Broadcast Console</p>
+          <h1 className="mt-3 max-w-4xl text-4xl font-extrabold tracking-normal text-white sm:text-5xl">Validate, dry-run, and broadcast signed CKB transactions.</h1>
+          <p className="mt-4 max-w-3xl text-base leading-7 text-[#D8C3AD]/75">
+            Paste a signed CKB testnet transaction, run local structure checks, simulate through CKB RPC, then submit only after explicit review.
           </p>
         </div>
-        <div className="flex w-fit items-center gap-2 rounded-card border border-moss/30 bg-moss/10 px-3 py-2 text-xs font-semibold uppercase text-moss">
-          testnet only
+        <div className="rounded-2xl border border-white/10 bg-[#18181B]/70 p-4 shadow-protocol">
+          <div className="mb-3 flex items-center justify-between font-mono text-[10px] uppercase tracking-wider text-[#D8C3AD]/50">
+            <span>Verification lane</span>
+            <span className="text-moss">testnet</span>
+          </div>
+          <div className="grid gap-2">
+            {steps.map((step, index) => (
+              <StepRow key={step.id} index={index + 1} label={step.label} copy={step.copy} active={stepStatus(step.id, hasJson, validationPassed, dryRunPassed, Boolean(broadcast))} />
+            ))}
+          </div>
         </div>
+      </section>
+
+      <div className="rounded-2xl border border-copper/25 bg-copper/10 p-4 text-sm leading-6 text-[#D8C3AD]/80">
+        <strong className="text-white">Testnet only.</strong> CellKit does not connect wallets, request private keys, or sign transactions. Broadcast only after external signing and review.
       </div>
 
-      <div className="mb-6 rounded-card border border-copper/35 bg-copper/10 p-4 text-sm leading-6 text-ink/75">
-        <strong className="text-ink">Testnet only.</strong> CellKit does not connect wallets, request private keys, or sign transactions. Broadcast only after external signing and review.
-      </div>
-
-      <div className="grid gap-6 xl:grid-cols-[minmax(0,1fr)_460px]">
+      <div className="grid gap-6 xl:grid-cols-[minmax(0,1fr)_480px]">
         <div className="grid gap-4">
           <SignedTransactionInput
             network="testnet"
             value={signedTransactionJson}
             skipDryRun={skipDryRun}
             parseError={parseError}
-            onChange={setSignedTransactionJson}
+            onChange={handleTransactionChange}
             onFormat={handleFormatJson}
             onSkipDryRunChange={setSkipDryRun}
           />
 
-          <section className="rounded-card border border-line bg-surface p-4 shadow-sm shadow-ink/5">
+          <section className="rounded-2xl border border-white/10 bg-[#18181B]/70 p-4 shadow-protocol">
             <div className="mb-4">
-              <h2 className="text-sm font-semibold text-ink">Actions</h2>
-              <p className="mt-1 text-sm leading-6 text-ink/65">Run each step explicitly. Dry-run never broadcasts automatically.</p>
+              <h2 className="font-mono text-sm font-semibold uppercase tracking-wider text-white">Execution Controls</h2>
+              <p className="mt-1 text-sm leading-6 text-[#D8C3AD]/65">Run each step deliberately. Validation must pass before dry-run, and broadcast requires either a successful dry-run or an explicit skip.</p>
             </div>
             <div className="grid gap-3 md:grid-cols-3">
               <button
                 type="button"
                 onClick={handleValidate}
-                disabled={isLoading}
-                className="inline-flex min-h-11 items-center justify-center rounded-card border border-line bg-paper px-4 py-2 text-center text-sm font-semibold leading-5 text-ink transition hover:border-copper hover:text-copper disabled:cursor-not-allowed disabled:opacity-60"
+                disabled={isLoading || !hasJson}
+                className="inline-flex min-h-12 items-center justify-center gap-2 rounded-xl border border-white/10 bg-black/30 px-4 py-2 text-center font-mono text-[11px] font-bold uppercase tracking-wider text-white transition hover:border-copper/40 hover:text-copper disabled:cursor-not-allowed disabled:opacity-40"
               >
-                <SearchCheck className="mr-2 h-4 w-4" aria-hidden="true" />
-                Validate Signed Transaction
+                <SearchCheck className="h-4 w-4" aria-hidden="true" />
+                Validate
               </button>
               <button
                 type="button"
                 onClick={handleDryRun}
-                disabled={isLoading}
-                className="inline-flex min-h-11 items-center justify-center rounded-card border border-line bg-paper px-4 py-2 text-center text-sm font-semibold leading-5 text-ink transition hover:border-copper hover:text-copper disabled:cursor-not-allowed disabled:opacity-60"
+                disabled={!canDryRun}
+                className="inline-flex min-h-12 items-center justify-center gap-2 rounded-xl border border-white/10 bg-black/30 px-4 py-2 text-center font-mono text-[11px] font-bold uppercase tracking-wider text-white transition hover:border-copper/40 hover:text-copper disabled:cursor-not-allowed disabled:opacity-40"
               >
-                <ShieldCheck className="mr-2 h-4 w-4" aria-hidden="true" />
+                <ShieldCheck className="h-4 w-4" aria-hidden="true" />
                 Dry Run
               </button>
               <button
                 type="button"
                 onClick={handleBroadcast}
-                disabled={isLoading}
-                className="inline-flex min-h-11 items-center justify-center rounded-card bg-copper px-4 py-2 text-center text-sm font-semibold leading-5 text-paper shadow-sm shadow-ink/10 transition hover:bg-ink disabled:cursor-not-allowed disabled:opacity-60"
+                disabled={!canBroadcast}
+                className="inline-flex min-h-12 items-center justify-center gap-2 rounded-xl bg-copper px-4 py-2 text-center font-mono text-[11px] font-bold uppercase tracking-wider text-[#18181B] shadow-[0_0_30px_rgba(255,193,116,0.15)] transition hover:bg-copper/95 disabled:cursor-not-allowed disabled:opacity-40"
               >
-                <Send className="mr-2 h-4 w-4" aria-hidden="true" />
-                Broadcast to Testnet
+                <Send className="h-4 w-4" aria-hidden="true" />
+                Broadcast
               </button>
             </div>
-            <div className="mt-4 flex items-start gap-2 rounded-card border border-copper/25 bg-copper/10 p-3 text-sm leading-6 text-ink/72">
+            <div className="mt-4 flex items-start gap-2 rounded-xl border border-copper/20 bg-copper/10 p-3 text-sm leading-6 text-[#D8C3AD]/75">
               <RadioTower className="mt-1 h-4 w-4 flex-none text-copper" aria-hidden="true" />
               <span>{confirmationText}</span>
             </div>
@@ -194,6 +228,28 @@ export default function BroadcastPage() {
           loadingAction={loadingLabel}
         />
       </div>
+    </div>
+  );
+}
+
+function stepStatus(stepId: string, hasJson: boolean, validationPassed: boolean, dryRunPassed: boolean, broadcasted: boolean) {
+  if (stepId === "paste") return hasJson;
+  if (stepId === "validate") return validationPassed;
+  if (stepId === "dry-run") return dryRunPassed;
+  if (stepId === "broadcast") return broadcasted;
+  return false;
+}
+
+function StepRow({ index, label, copy, active }: { index: number; label: string; copy: string; active: boolean }) {
+  return (
+    <div className={`flex items-center gap-3 rounded-xl border px-3 py-2 transition ${active ? "border-moss/25 bg-moss/10" : "border-white/10 bg-black/20"}`}>
+      <span className={`grid h-7 w-7 flex-none place-items-center rounded-lg font-mono text-[11px] font-bold ${active ? "bg-moss text-[#08110d]" : "bg-white/5 text-[#D8C3AD]/55"}`}>
+        {active ? <CheckCircle2 className="h-3.5 w-3.5" aria-hidden="true" /> : index}
+      </span>
+      <span className="min-w-0">
+        <span className="block font-mono text-[11px] font-bold uppercase tracking-wider text-white">{label}</span>
+        <span className="block truncate text-xs text-[#D8C3AD]/55">{copy}</span>
+      </span>
     </div>
   );
 }

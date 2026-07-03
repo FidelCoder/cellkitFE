@@ -152,6 +152,7 @@ CellKit is open source under the MIT License.
 - Contributing guide: [`CONTRIBUTING.md`](./CONTRIBUTING.md)
 - Security policy: [`SECURITY.md`](./SECURITY.md)
 - Spark Program scope: [`SPARK_PROGRAM.md`](./SPARK_PROGRAM.md)
+- Demo script: [`DEMO.md`](./DEMO.md)
 
 Public development happens in this repository. Issues, bug reports, documentation improvements, UI fixes, and narrowly scoped feature contributions are welcome.
 
