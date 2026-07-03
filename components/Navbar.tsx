@@ -2,57 +2,75 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Braces, Github } from "lucide-react";
+import { Github, Network, RadioTower } from "lucide-react";
 import { ThemeToggle } from "./ThemeToggle";
 
 const githubUrl = "https://github.com/FidelCoder/cellkitFE";
 
 const navItems = [
   { href: "/playground", label: "Playground" },
-  { href: "/actions", label: "Actions" },
+  { href: "/actions", label: "Templates" },
   { href: "/broadcast", label: "Broadcast" },
-  { href: "/api-reference", label: "API Reference" }
+  { href: "/api-reference", label: "API" }
 ];
 
 export function Navbar() {
   const pathname = usePathname();
 
   return (
-    <header className="sticky top-0 z-40 border-b border-line bg-paper/88 shadow-sm shadow-ink/5 backdrop-blur-xl">
-      <div className="mx-auto flex max-w-7xl flex-wrap items-center justify-between gap-3 px-4 py-3 sm:flex-nowrap sm:px-6 lg:px-8">
-        <Link href="/" className="group flex min-w-0 items-center gap-2 font-semibold tracking-normal text-ink">
-          <span className="grid h-9 w-9 place-items-center rounded-card bg-ink text-paper shadow-sm shadow-ink/15 transition group-hover:bg-copper">
-            <Braces className="h-4 w-4" aria-hidden="true" />
-          </span>
-          <span className="truncate">CellKit Actions</span>
-        </Link>
+    <header className="fixed left-0 top-0 z-50 h-16 w-full border-b border-white/10 bg-[#09090B]/90 backdrop-blur-md">
+      <div className="mx-auto flex h-full max-w-7xl items-center justify-between gap-4 px-4 sm:px-6 lg:px-8">
+        <div className="flex min-w-0 items-center gap-8">
+          <Link href="/" className="flex min-w-0 items-center gap-1.5 active:scale-95 transition-transform">
+            <span className="truncate text-xl font-bold tracking-normal text-white">
+              CellKit<span className="text-copper">.</span>
+            </span>
+          </Link>
 
-        <nav className="order-3 flex w-full gap-1 overflow-x-auto text-sm sm:order-none sm:w-auto sm:flex-1 sm:justify-end sm:overflow-visible" aria-label="Primary navigation">
-          {navItems.map((item) => {
-            const active = pathname === item.href || (item.href !== "/playground" && pathname?.startsWith(`${item.href}/`));
-            return (
-              <Link
-                key={item.href}
-                href={item.href}
-                aria-current={active ? "page" : undefined}
-                className={`whitespace-nowrap rounded-card px-3 py-2 transition ${
-                  active
-                    ? "bg-surface text-ink shadow-sm shadow-ink/5"
-                    : "text-ink/68 hover:bg-surface hover:text-ink"
-                }`}
-              >
-                {item.label}
-              </Link>
-            );
-          })}
-        </nav>
+          <nav className="hidden items-center gap-2 md:flex" aria-label="Primary navigation">
+            {navItems.map((item) => {
+              const active = pathname === item.href || (item.href !== "/playground" && pathname?.startsWith(`${item.href}/`));
+              return (
+                <Link
+                  key={item.href}
+                  href={item.href}
+                  aria-current={active ? "page" : undefined}
+                  className={`rounded px-3 py-1.5 font-mono text-[11px] uppercase tracking-wider transition-all active:scale-95 ${
+                    active
+                      ? "border border-copper/20 bg-copper/5 text-copper"
+                      : "text-[#D8C3AD]/60 hover:text-white"
+                  }`}
+                >
+                  {item.label}
+                </Link>
+              );
+            })}
+          </nav>
+        </div>
 
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-3">
+          <div className="hidden items-center gap-2 border border-white/10 bg-[#131315] px-3 py-1 font-mono text-[11px] text-moss lg:flex">
+            <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-moss" />
+            CKB TESTNET
+          </div>
+          <Link
+            href="/broadcast"
+            className="hidden h-9 items-center gap-2 rounded-full border border-copper/20 bg-copper/10 px-3 font-mono text-[11px] font-bold uppercase tracking-wider text-copper transition hover:bg-copper/15 sm:inline-flex"
+          >
+            <RadioTower className="h-3.5 w-3.5" aria-hidden="true" />
+            Verify
+          </Link>
+          <button
+            title="Indexer and RPC configured by backend"
+            className="hidden h-9 w-9 place-items-center rounded-full border border-white/10 bg-[#18181B] text-[#D8C3AD]/65 transition hover:border-copper/40 hover:text-copper sm:grid"
+          >
+            <Network className="h-4 w-4" aria-hidden="true" />
+          </button>
           <a
             href={githubUrl}
             target="_blank"
             rel="noreferrer"
-            className="grid h-9 w-9 place-items-center rounded-card border border-line bg-surface text-ink/72 shadow-sm shadow-ink/5 transition hover:border-copper hover:text-copper"
+            className="grid h-9 w-9 place-items-center rounded-full border border-white/10 bg-[#18181B] text-[#D8C3AD]/65 transition hover:border-copper/40 hover:text-copper"
             aria-label="Open CellKit frontend GitHub repository"
             title="Open GitHub repository"
           >
@@ -61,6 +79,17 @@ export function Navbar() {
           <ThemeToggle />
         </div>
       </div>
+
+      <nav className="fixed bottom-0 left-0 z-50 flex h-14 w-full items-center justify-around border-t border-white/10 bg-[#09090B]/95 backdrop-blur-md md:hidden" aria-label="Mobile navigation">
+        {navItems.map((item) => {
+          const active = pathname === item.href || (item.href !== "/playground" && pathname?.startsWith(`${item.href}/`));
+          return (
+            <Link key={item.href} href={item.href} className={`font-mono text-[10px] ${active ? "text-copper" : "text-[#D8C3AD]/45"}`}>
+              {item.label}
+            </Link>
+          );
+        })}
+      </nav>
     </header>
   );
 }

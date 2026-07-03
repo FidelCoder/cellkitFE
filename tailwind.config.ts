@@ -23,6 +23,13 @@ const config: Config = {
       },
       borderRadius: {
         card: "8px"
+      },
+      fontFamily: {
+        sans: ["Geist", "Inter", "ui-sans-serif", "system-ui", "sans-serif"],
+        mono: ["JetBrains Mono", "ui-monospace", "SFMono-Regular", "monospace"]
+      },
+      boxShadow: {
+        protocol: "0 24px 80px rgb(0 0 0 / 0.35)"
       }
     }
   },
